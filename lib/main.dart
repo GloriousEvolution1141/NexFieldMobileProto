@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await dotenv.load(fileName: ".env");
+
   await Supabase.initialize(
-    url: 'https://hmbczhzpbpqqddsfappc.supabase.co',
-    anonKey: 'sb_publishable_P8Or7ov09hF3aV4KFFLA8w_I7H_jwuP',
+    url: dotenv.env['SUPABASE_URL'] ?? '',
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   );
 
   await Supabase.instance.client.auth.signOut();
